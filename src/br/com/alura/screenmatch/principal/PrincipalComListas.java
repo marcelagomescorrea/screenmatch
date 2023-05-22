@@ -61,7 +61,7 @@ public class PrincipalComListas {
 
         assistidos.sort(Comparator.comparing(Titulo::getAnoDeLancamento));
         System.out.println("\nLista de assistidos ordenados pelo ano de lançamento: ");  
-        System.out.println(assistidos);   
+        System.out.println(assistidos);
 
     }   
 }
