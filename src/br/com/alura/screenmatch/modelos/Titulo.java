@@ -1,5 +1,7 @@
 package br.com.alura.screenmatch.modelos;
 
+import br.com.alura.screenmatch.excecao.ErroDeConversaoException;
+
 public class Titulo implements Comparable<Titulo> {
     private String nome;
     private int anoDeLancamento;
@@ -16,6 +18,20 @@ public class Titulo implements Comparable<Titulo> {
         this.somaDasAvaliacoes = somaDasAvaliacoes;
         this.totalDeAvaliacoes = totalDeAvaliacoes;
         this.duracaoEmMinutos = duracaoEmMinutos;
+    }
+
+    public Titulo(TituloOmdb tituloOmdb) {
+        this.nome = tituloOmdb.title();
+
+        // if (tituloOmdb.year().length() > 4) {
+        //     throw new ErroDeConversaoException("Não foi possível converter para ano: <" + tituloOmdb.year() + ">");
+        // }
+        this.anoDeLancamento = Integer.valueOf(tituloOmdb.year().substring(0,4));
+        try {
+            this.duracaoEmMinutos = Integer.valueOf(tituloOmdb.runtime().substring(0, tituloOmdb.runtime().length() - 4));
+        } catch (Exception e) {
+            this.duracaoEmMinutos = 0;
+        }
     }
 
     public void exibeFichaTecnica() {
@@ -75,6 +91,15 @@ public class Titulo implements Comparable<Titulo> {
     @Override
     public int compareTo(Titulo outroTitulo) {
         return this.getNome().compareTo(outroTitulo.getNome());
+    }
+
+    @Override
+    public String toString() {
+        if (this.getDuracaoEmMinutos() != 0) {
+            return this.getNome() + " (" + this.getAnoDeLancamento() + ") - " + this.getDuracaoEmMinutos() + " min";
+        } else {
+            return this.getNome() + " (" + this.getAnoDeLancamento() + ")";
+        }
     }
 
 }
